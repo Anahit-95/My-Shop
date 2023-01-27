@@ -27,12 +27,12 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     final url = Uri.parse(
-        'https://flutter-my-shop-b984b-default-rtdb.firebaseio/products/$id.json');
+        'https://flutter-my-shop-b984b-default-rtdb.firebaseio.com/products/$id.json?auth$token');
     try {
       final response = await http.patch(
         url,
@@ -43,6 +43,7 @@ class Product with ChangeNotifier {
       if (response.statusCode >= 400) {
         _setFavValue(oldStatus);
       }
+      print(json.decode(response.body));
     } catch (error) {
       _setFavValue(oldStatus);
       throw error;
