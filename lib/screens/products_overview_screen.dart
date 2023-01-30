@@ -25,6 +25,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _isInit = true;
   var _isLoading = false;
 
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+  }
+
   @override
   void initState() {
     // Future.delayed(Duration.zero).then((_) {
@@ -97,7 +101,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : ProductGrid(_showOnlyFavorites),
+          : RefreshIndicator(
+              onRefresh: () => _refreshProducts(context),
+              child: ProductGrid(_showOnlyFavorites)),
     );
   }
 }
