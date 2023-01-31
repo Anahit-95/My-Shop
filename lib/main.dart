@@ -15,6 +15,8 @@ import './providers/products.dart';
 import './providers/cart.dart';
 import './providers/orders.dart';
 
+import './helpers/custom_route.dart';
+
 // https://www.youtube.com/watch?v=Td3xEWwRAQA
 // https://medium.com/codechai/architecting-your-flutter-project-bd04e144a8f1
 
@@ -51,10 +53,13 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'MyShop',
           theme: ThemeData(
-            primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
-            fontFamily: 'Lato',
-          ),
+              primarySwatch: Colors.purple,
+              accentColor: Colors.deepOrange,
+              fontFamily: 'Lato',
+              pageTransitionsTheme: PageTransitionsTheme(builders: {
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS: CustomPageTransitionBuilder(),
+              })),
           home: auth.isAuth
               ? ProductsOverviewScreen()
               : FutureBuilder(
